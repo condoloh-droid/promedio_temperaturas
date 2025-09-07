@@ -1,0 +1,25 @@
+# Definir dimensiones
+ciudades = ["Loja", "Cuenca", "Quito"]
+dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+semanas = 4  # Suponiendo 4 semanas
+
+# Crear matriz 3D: ciudades x días x semanas
+import random
+
+# Inicializar matriz con temperaturas aleatorias entre 15 y 35 grados
+matriz_temperaturas = [[[random.uniform(15, 35) for _ in range(len(dias_semana))]
+                         for _ in range(semanas)]
+                         for _ in range(len(ciudades))]
+
+# Calcular y mostrar promedios semanales por ciudad
+print("Promedio de temperaturas semanales por ciudad:\n")
+
+for i, ciudad in enumerate(ciudades):
+    print(f"📍 {ciudad}:")
+    for semana in range(semanas):
+        suma = 0
+        for dia in range(len(dias_semana)):
+            suma += matriz_temperaturas[i][semana][dia]
+        promedio = suma / len(dias_semana)
+        print(f"  Semana {semana + 1}: {promedio:.2f}°C")
+    print()
