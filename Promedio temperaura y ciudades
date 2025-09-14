@@ -1,0 +1,69 @@
+import random
+
+# ----------------------------------------------------------
+# Función: calcular_promedio_temperaturas
+# ----------------------------------------------------------
+# Descripción:
+#   Esta función recibe una matriz 3D de temperaturas
+#   con la forma [ciudades][semanas][días].
+#   Retorna los promedios semanales y generales por ciudad.
+#
+# Parámetros:
+#   ciudades (list): Lista de nombres de ciudades.
+#   dias (list): Lista de días de la semana.
+#   matriz (list): Matriz 3D con temperaturas.
+#
+# Retorna:
+#   dict: Resultados con promedios semanales y promedio total
+# ----------------------------------------------------------
+
+def calcular_promedio_temperaturas(ciudades, dias, matriz):
+    resultados = {}
+
+    for i, ciudad in enumerate(ciudades):
+        promedios_semanales = []
+        suma_total = 0
+        conteo_total = 0
+
+        for semana in range(len(matriz[i])):
+            suma_semana = sum(matriz[i][semana])  # suma de los 7 días
+            promedio_semana = suma_semana / len(dias)
+            promedios_semanales.append(promedio_semana)
+
+            # Acumular para el promedio total
+            suma_total += suma_semana
+            conteo_total += len(dias)
+
+        promedio_ciudad = suma_total / conteo_total
+        resultados[ciudad] = {
+            "promedios_semanales": promedios_semanales,
+            "promedio_total": promedio_ciudad
+        }
+
+    return resultados
+
+
+# ----------------------------------------------------------
+# Ejemplo de uso
+# ----------------------------------------------------------
+
+if __name__ == "__main__":
+    ciudades = ["Loja", "Cuenca", "Quito"]
+    dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+    semanas = 4  # Suponiendo 4 semanas
+
+    # Generar matriz 3D con temperaturas aleatorias entre 15 y 35 grados
+    matriz_temperaturas = [[[random.uniform(15, 35) for _ in range(len(dias_semana))]
+                             for _ in range(semanas)]
+                             for _ in range(len(ciudades))]
+
+    # Calcular resultados
+    resultados = calcular_promedio_temperaturas(ciudades, dias_semana, matriz_temperaturas)
+
+    # Mostrar resultados
+    print("📊 Promedio de temperaturas:\n")
+    for ciudad, datos in resultados.items():
+        print(f"📍 {ciudad}:")
+        for idx, promedio in enumerate(datos["promedios_semanales"]):
+            print(f"  Semana {idx + 1}: {promedio:.2f}°C")
+        print(f"  🔹 Promedio total: {datos['promedio_total']:.2f}°C\n")
